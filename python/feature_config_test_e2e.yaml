@@ -1,0 +1,80 @@
+query_key:
+  name: query_id
+  node_name: query_id
+  trainable: false
+  dtype: string
+  log_at_inference: true
+  feature_layer_info:
+    type: numeric
+    shape: null
+  serving_info:
+    name: queryId
+    required: false
+    default_value: ""
+  tfrecord_type: context
+rank:
+  name: rank
+  node_name: rank
+  trainable: false
+  dtype: int64
+  log_at_inference: true
+  feature_layer_info:
+    type: numeric
+    shape: null
+  serving_info:
+    name: originalRank
+    required: false
+    default_value: 0
+  tfrecord_type: sequence
+label:
+  name: label
+  node_name: label
+  trainable: false
+  dtype: int64
+  log_at_inference: true
+  feature_layer_info:
+    type: numeric
+    shape: null
+  serving_info:
+    name: label
+    required: false
+    default_value: 0
+  tfrecord_type: sequence
+features:
+  - name: feature1
+    node_name: feature1
+    trainable: true
+    dtype: int64
+    log_at_inference: false
+    feature_layer_info:
+      type: numeric
+      shape: null
+    serving_info:
+      name: feature1
+      required: true
+      default_value: 0
+    tfrecord_type: sequence
+  - name: feature2
+    node_name: feature2
+    trainable: true
+    dtype: float
+    log_at_inference: false
+    feature_layer_info:
+      type: numeric
+      shape: null
+    serving_info:
+      name: feature2
+      required: true
+      default_value: 0.0
+    tfrecord_type: sequence
+  - name: query_id
+    node_name: query_id
+    trainable: false
+    dtype: string
+    log_at_inference: true
+    serving_info:
+      name: query_id
+      required: true
+      default_value: ""
+    tfrecord_type: context
+
