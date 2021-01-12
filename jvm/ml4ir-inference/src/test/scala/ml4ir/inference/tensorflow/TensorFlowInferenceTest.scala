@@ -103,6 +103,37 @@ class TensorFlowInferenceTest extends TestData {
     assertArrayEquals(expected, predictionsSameName, 1e-6f)
   }
 
+  @Test
+  def testCustomRankingSavedModelBundle(): Unit = {
+    val bundlePath = "python/models/e2e_run/final/tfrecord"
+    val bundleExecutor = new TFRecordExecutor(
+      bundlePath,
+      ModelExecutorConfig(
+        queryNodeName = "serving_tfrecord_protos",
+        scoresNodeName = "StatefulPartitionedCall"
+      )
+    )
+    val configPath = "python/feature_config_test_e2e.yaml"
+    val modelFeatures = ModelFeaturesConfig.load(configPath)
+
+    val protoBuilder = StringMapSequenceExampleBuilder.withFeatureProcessors(modelFeatures,
+      ImmutableMap.of(),
+      ImmutableMap.of(),
+      ImmutableMap.of())
+
+    val sampleQueryContexts = Map("query_str" -> "example query")
+
+    val sampleDocumentExamples =
+      List(
+        Map("feature1" -> "325", "feature2" -> "0.35005579109085794"),
+        Map("feature1" -> "446", "feature2" -> "0.368237827326548")
+      )
+
+    val proto: SequenceExample = protoBuilder(sampleQueryContexts.asJava, sampleDocumentExamples.map(_.asJava))
+    val scores: Array[Float] = bundleExecutor(proto)
+    validateScores(scores, sampleDocumentExamples.length)
+  }
+
   private def predict(queryContext: Map[String, String],
                       modelPath: String,
                       featureConfigPath: String,
