@@ -5,7 +5,8 @@ query_key:
   dtype: string
   log_at_inference: true
   feature_layer_info:
-    type: numeric
+    type: string
+    max_length: 20
     shape: null
   serving_info:
     name: queryId
@@ -22,7 +23,7 @@ rank:
     type: numeric
     shape: null
   serving_info:
-    name: originalRank
+    name: rank
     required: false
     default_value: 0
   tfrecord_type: sequence
@@ -67,14 +68,17 @@ features:
       required: true
       default_value: 0.0
     tfrecord_type: sequence
-  - name: query_id
-    node_name: query_id
+  - name: query_str
+    node_name: query_str
     trainable: false
     dtype: string
     log_at_inference: true
+    feature_layer_info:
+      type: numeric
+      max_length: 20
+      shape: null
     serving_info:
-      name: query_id
+      name: query_str
       required: true
-      default_value: ""
     tfrecord_type: context
 
